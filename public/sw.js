@@ -1,4 +1,4 @@
-const CACHE_NAME = "asimov-edu-v2"
+const CACHE_NAME = "asimov-edu-v3"
 const STATIC_CACHE_URLS = [
   "/",
   "/manifest.json",
@@ -106,6 +106,11 @@ self.addEventListener("fetch", (event) => {
         }),
     )
     return
+  }
+
+  // Bypass Next.js internal assets to avoid caching stale CSS/JS
+  if (url.pathname.startsWith('/_next/') || url.pathname.startsWith('/favicon') || url.pathname.startsWith('/manifest')) {
+    return;
   }
 
   // Handle static assets and pages with cache-first strategy
